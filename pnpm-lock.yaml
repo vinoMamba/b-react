@@ -36,6 +36,20 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
 
+  packages/react:
+    dependencies:
+      shared:
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/react-reconciler:
+    dependencies:
+      shared:
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/shared: {}
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:
