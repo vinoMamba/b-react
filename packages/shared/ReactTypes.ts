@@ -12,3 +12,5 @@ export interface ReactElementType {
   ref: Ref
   __mark: string
 }
+
+export type Action<State> = State | ((prevState: State) => State) // prevState: 之前的state 通过函数返回新的state。 Pure!
