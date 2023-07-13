@@ -1,4 +1,5 @@
 import type { Key, Props, Ref } from 'shared/ReactTypes'
+import type { Container } from 'hostConfig'
 import type { WorkTag } from './workTags'
 import type { Flags } from './fiberFlags'
 import { NoFlags } from './fiberFlags'
@@ -19,6 +20,7 @@ export class FiberNode {
   memorizedProps: Props | null
   alternate: FiberNode | null
   flags: Flags
+  updateQueue: unknown
 
   constructor(tag: WorkTag, pendingProps: Props, key: Key) {
     this.tag = tag
@@ -35,10 +37,23 @@ export class FiberNode {
 
     this.pendingProps = pendingProps
     this.memorizedProps = null // 确定之后的Props
+    this.updateQueue = null
 
     this.alternate = null
 
     // 副作用
     this.flags = NoFlags
+  }
+}
+
+export class FiberRootNode {
+  container: Container
+  current: FiberNode
+  finishedWork: FiberNode | null
+  constructor(container: Container, hostRootFiber: FiberNode) {
+    this.container = container
+    this.current = hostRootFiber
+    hostRootFiber.stateNode = this
+    this.finishedWork = null
   }
 }
