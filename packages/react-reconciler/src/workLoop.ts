@@ -1,14 +1,35 @@
 import { beginWork } from './beginWork'
 import { completeWork } from './completeWork'
-import type { FiberNode } from './fiber'
+import type { FiberNode, FiberRootNode } from './fiber'
+import { createWorkInProgress } from './fiber'
+import { HostRoot } from './workTags'
 
 let workInProgress: FiberNode | null = null
 
-function prepareFreshStack(fiber: FiberNode) {
-  workInProgress = fiber
+export function scheduleUpdateOnFiber(fiber: FiberNode) {
+  // TODO: schedule
+  const root = markUpdateFromFiberToRoot(fiber)
+  renderRoot(root)
 }
 
-export function renderRoot(root: FiberNode) {
+function markUpdateFromFiberToRoot(fiber: FiberNode) {
+  let node = fiber
+  let parent = node.return
+  while (parent !== null) {
+    node = parent
+    parent = node.return
+  }
+  if (node.tag === HostRoot) {
+    return node.stateNode
+  }
+  return null
+}
+
+function prepareFreshStack(root: FiberRootNode) {
+  workInProgress = createWorkInProgress(root.current, {})
+}
+
+function renderRoot(root: FiberRootNode) {
   prepareFreshStack(root)
   do {
     try {
@@ -31,7 +52,7 @@ function workLoop() {
 function perforUnitOfWork(fiber: FiberNode) {
   const next = beginWork(fiber)
   // TODO: why
-  fiber.memorizedProps = fiber.pendingProps
+  fiber.memoizedProps = fiber.pendingProps
   if (next === null) {
     completeUnitOfWork(fiber)
   }

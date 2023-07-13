@@ -17,7 +17,8 @@ export class FiberNode {
   child: FiberNode | null
   index: number
 
-  memorizedProps: Props | null
+  memoizedProps: Props | null
+  memoizedState: any
   alternate: FiberNode | null
   flags: Flags
   updateQueue: unknown
@@ -36,7 +37,8 @@ export class FiberNode {
     this.ref = null
 
     this.pendingProps = pendingProps
-    this.memorizedProps = null // 确定之后的Props
+    this.memoizedProps = null // 确定之后的Props
+    this.memoizedState = null
     this.updateQueue = null
 
     this.alternate = null
@@ -56,4 +58,29 @@ export class FiberRootNode {
     hostRootFiber.stateNode = this
     this.finishedWork = null
   }
+}
+
+export function createWorkInProgress(current: FiberNode, pendingProps: Props) {
+  let wip = current.alternate
+  if (wip === null) {
+    // mount
+    wip = new FiberNode(current.tag, pendingProps, current.key)
+    wip.type = current.type
+    wip.stateNode = current.stateNode
+
+    wip.alternate = current
+    current.alternate = wip
+  }
+  else {
+    wip.pendingProps = pendingProps
+    wip.flags = NoFlags
+  }
+
+  wip.type = current.type
+  wip.updateQueue = current.updateQueue
+  wip.child = current.child
+  wip.memoizedProps = current.memoizedProps
+  wip.memoizedState = current.memoizedState
+
+  return wip
 }

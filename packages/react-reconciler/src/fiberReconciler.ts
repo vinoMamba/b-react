@@ -4,6 +4,7 @@ import { createUpdate, createUpdateQueue, enqueueUpdate } from 'react-reconciler
 import type { ReactElementType } from 'shared/ReactTypes'
 import { FiberNode, FiberRootNode } from './fiber'
 import { HostRoot } from './workTags'
+import { scheduleUpdateOnFiber } from './workLoop'
 
 export function createContainer(container: Container) {
   const hostRootFiber = new FiberNode(HostRoot, {}, null)
@@ -17,6 +18,6 @@ export function updateContainer(element: ReactElementType | null, root: FiberRoo
   const update = createUpdate<ReactElementType | null>(element)
   const updateQueue = hostRootFiber.updateQueue as UpdateQueue<ReactElementType | null>
   enqueueUpdate(updateQueue, update)
-
+  scheduleUpdateOnFiber(hostRootFiber)
   return element
 }
