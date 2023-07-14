@@ -29,6 +29,7 @@ function prepareFreshStack(root: FiberRootNode) {
   workInProgress = createWorkInProgress(root.current, {})
 }
 
+// 入口
 function renderRoot(root: FiberRootNode) {
   prepareFreshStack(root)
   do {
@@ -62,7 +63,7 @@ function perforUnitOfWork(fiber: FiberNode) {
 }
 
 function completeUnitOfWork(fiber: FiberNode) {
-  let node: FiberNode = fiber
+  let node: FiberNode | null = fiber
   do {
     completeWork(node)
     const sibling = node.sibling

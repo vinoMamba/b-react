@@ -1,14 +1,15 @@
 import type { Container } from 'hostConfig'
-import type { UpdateQueue } from 'react-reconciler/updateQueue'
-import { createUpdate, createUpdateQueue, enqueueUpdate } from 'react-reconciler/updateQueue'
 import type { ReactElementType } from 'shared/ReactTypes'
 import { FiberNode, FiberRootNode } from './fiber'
 import { HostRoot } from './workTags'
 import { scheduleUpdateOnFiber } from './workLoop'
+import type { UpdateQueue } from './updateQueue'
+import { createUpdate, createUpdateQueue, enqueueUpdate } from './updateQueue'
 
 export function createContainer(container: Container) {
   const hostRootFiber = new FiberNode(HostRoot, {}, null)
   const root = new FiberRootNode(container, hostRootFiber)
+  // NOTE: 接入更新机制
   hostRootFiber.updateQueue = createUpdateQueue()
   return root
 }

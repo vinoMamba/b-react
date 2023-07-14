@@ -32,7 +32,7 @@ export function enqueueUpdate<State>(
   updateQueue.shared.pending = update
 }
 
-// 消费
+// TODO: 什么时候消费
 export function processUpdateQueue<State>(baseState: State, pendingUpdate: Update<State>): { memoizedState: State } {
   const result: ReturnType<typeof processUpdateQueue<State>> = { memoizedState: baseState }
   if (pendingUpdate !== null) {

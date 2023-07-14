@@ -60,10 +60,10 @@ export class FiberRootNode {
   }
 }
 
-export function createWorkInProgress(current: FiberNode, pendingProps: Props) {
+export function createWorkInProgress(current: FiberNode, pendingProps: Props): FiberNode {
   let wip = current.alternate
   if (wip === null) {
-    // mount
+    // NOTE: mount
     wip = new FiberNode(current.tag, pendingProps, current.key)
     wip.type = current.type
     wip.stateNode = current.stateNode
@@ -72,6 +72,7 @@ export function createWorkInProgress(current: FiberNode, pendingProps: Props) {
     current.alternate = wip
   }
   else {
+    // NOTE: update
     wip.pendingProps = pendingProps
     wip.flags = NoFlags
   }
