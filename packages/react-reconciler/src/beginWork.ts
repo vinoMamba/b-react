@@ -19,7 +19,7 @@ export function beginWork(wip: FiberNode) {
       }
       break
   }
-  return wip
+  return null
 }
 
 function updateHostRoot(wip: FiberNode) {
