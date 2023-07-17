@@ -21,7 +21,7 @@ export function completeWork(wip: FiberNode) {
       return null
     case HostText:
       if (current !== null && wip.stateNode) {
-
+        // FIX:
       }
       else {
         const instance = createTextInstance(newProps.content)

@@ -12,6 +12,7 @@ export function beginWork(wip: FiberNode) {
     case HostComponent:
       return updateHostComponent(wip)
     case HostText:
+      // NOTE: 没有子节点，然后开始completeWork
       return null
     default:
       if (__DEV__) {
@@ -28,6 +29,7 @@ function updateHostRoot(wip: FiberNode) {
   const pending = updateQueue.shared.pending as Update<Element>
   updateQueue.shared.pending = null
   const { memoizedState } = processUpdateQueue(baseState, pending)
+
   wip.memoizedState = memoizedState
 
   const nextChildren = wip.memoizedState
@@ -37,7 +39,7 @@ function updateHostRoot(wip: FiberNode) {
 
 function updateHostComponent(wip: FiberNode) {
   const nextProps = wip.pendingProps
-  const nextChildren = nextProps.nextChildren
+  const nextChildren = nextProps.children
   reconcilerChilren(wip, nextChildren)
   return wip.child
 }

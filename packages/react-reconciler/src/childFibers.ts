@@ -18,6 +18,7 @@ function ChildReconcile(shouleTrackEffects: boolean) {
   }
 
   function placeSingleChild(fiber: FiberNode) {
+    // NOTE: 刚创建的fiber 的 alternate 为null
     if (shouleTrackEffects && fiber.alternate === null) {
       fiber.flags |= Placement
     }

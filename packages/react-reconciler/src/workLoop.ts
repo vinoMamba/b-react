@@ -20,6 +20,7 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
     parent = node.return
   }
   if (node.tag === HostRoot) {
+    // NOTE: 对应的是 this 也就是 FiberRootNode,查看 FiberRootNode 的构造函数
     return node.stateNode
   }
   return null

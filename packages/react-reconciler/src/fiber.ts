@@ -69,7 +69,7 @@ export function createWorkInProgress(current: FiberNode, pendingProps: Props): F
     // NOTE: mount
     wip = new FiberNode(current.tag, pendingProps, current.key)
     wip.type = current.type
-    wip.stateNode = current.stateNode
+    wip.stateNode = current.stateNode // FiberRootNode
 
     wip.alternate = current
     current.alternate = wip
