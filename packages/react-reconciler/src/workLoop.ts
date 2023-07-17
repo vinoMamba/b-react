@@ -2,6 +2,7 @@ import { beginWork } from './beginWork'
 import { completeWork } from './completeWork'
 import type { FiberNode, FiberRootNode } from './fiber'
 import { createWorkInProgress } from './fiber'
+import { MutationMarks, NoFlags } from './fiberFlags'
 import { HostRoot } from './workTags'
 
 let workInProgress: FiberNode | null = null
@@ -48,8 +49,29 @@ function renderRoot(root: FiberRootNode) {
 
   const finishedWork = root.current.alternate
   root.finishedWork = finishedWork
-  // TODO: commitRoot
-  // commitRoot(root)
+  commitRoot(root)
+}
+
+function commitRoot(root: FiberRootNode) {
+  const finishedWork = root.finishedWork
+  if (finishedWork === null) {
+    return
+  }
+  if (__DEV__) {
+    console.warn('commit 阶段开始', finishedWork)
+  }
+
+  root.finishedWork = null
+
+  const subTreeHasEffect = (finishedWork.subTreeFlags & MutationMarks) !== NoFlags
+  const rootHasEffect = (finishedWork.flags & MutationMarks) !== NoFlags
+
+  if (subTreeHasEffect || rootHasEffect) {
+    root.current = finishedWork
+  }
+  else {
+    root.current = finishedWork
+  }
 }
 
 function workLoop() {

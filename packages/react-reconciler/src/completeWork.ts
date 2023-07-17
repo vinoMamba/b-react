@@ -8,8 +8,8 @@ export function completeWork(wip: FiberNode) {
   const current = wip.alternate
   switch (wip.tag) {
     case HostComponent:
-      if (current !== null) {
-        // update
+      if (current !== null && wip.stateNode) {
+        // TODO: update
       }
       else {
         // mount
@@ -21,7 +21,7 @@ export function completeWork(wip: FiberNode) {
       return null
     case HostText:
       if (current !== null && wip.stateNode) {
-        // FIX:
+        // TODO: update
       }
       else {
         const instance = createTextInstance(newProps.content)
