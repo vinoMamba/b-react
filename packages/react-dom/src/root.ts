@@ -10,4 +10,3 @@ export function createRoot(container: Container) {
     },
   }
 }
-

@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "modeule": "index.ts",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
   "dependencies": {
     "shared": "workspace:*"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

@@ -1,4 +1,5 @@
 import { beginWork } from './beginWork'
+import { commitMutationEffects } from './commitWork'
 import { completeWork } from './completeWork'
 import type { FiberNode, FiberRootNode } from './fiber'
 import { createWorkInProgress } from './fiber'
@@ -31,7 +32,7 @@ function prepareFreshStack(root: FiberRootNode) {
   workInProgress = createWorkInProgress(root.current, {})
 }
 
-// 入口
+// NOTE: 入口
 function renderRoot(root: FiberRootNode) {
   prepareFreshStack(root)
   do {
@@ -67,6 +68,7 @@ function commitRoot(root: FiberRootNode) {
   const rootHasEffect = (finishedWork.flags & MutationMarks) !== NoFlags
 
   if (subTreeHasEffect || rootHasEffect) {
+    commitMutationEffects(finishedWork)
     root.current = finishedWork
   }
   else {
