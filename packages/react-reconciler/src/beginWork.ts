@@ -2,8 +2,9 @@ import type { ReactElementType } from 'shared/ReactTypes'
 import type { FiberNode } from './fiber'
 import type { Update, UpdateQueue } from './updateQueue'
 import { processUpdateQueue } from './updateQueue'
-import { HostComponent, HostRoot, HostText } from './workTags'
+import { FunctionComponent, HostComponent, HostRoot, HostText } from './workTags'
 import { mountChildFibers, reconcileChildFibers } from './childFibers'
+import { renderWithHooks } from './fiberHooks'
 
 export function beginWork(wip: FiberNode) {
   switch (wip.tag) {
@@ -14,12 +15,20 @@ export function beginWork(wip: FiberNode) {
     case HostText:
       // NOTE: 没有子节点，然后开始completeWork
       return null
+    case FunctionComponent:
+      return updateFunctionComponent(wip)
     default:
       if (__DEV__) {
         console.warn('beginWork 未实现的类型')
       }
       return null
   }
+}
+
+function updateFunctionComponent(wip: FiberNode) {
+  const nextChildren = renderWithHooks(wip)
+  reconcilerChilren(wip, nextChildren)
+  return wip.child
 }
 
 function updateHostRoot(wip: FiberNode) {
