@@ -31,6 +31,7 @@ export function completeWork(wip: FiberNode) {
       bubbleProperties(wip)
       return null
     case HostRoot:
+      bubbleProperties(wip)
       return null
     default:
       if (__DEV__) {

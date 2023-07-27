@@ -77,13 +77,12 @@ export function createWorkInProgress(current: FiberNode, pendingProps: Props): F
   else {
     // NOTE: update
     wip.pendingProps = pendingProps
-    wip.flags = NoFlags
-    wip.subTreeFlags = NoFlags
   }
 
-  wip.type = current.type
   wip.updateQueue = current.updateQueue
+  wip.flags = current.flags
   wip.child = current.child
+
   wip.memoizedProps = current.memoizedProps
   wip.memoizedState = current.memoizedState
 
@@ -92,14 +91,20 @@ export function createWorkInProgress(current: FiberNode, pendingProps: Props): F
 
 export function createFiberFromElement(element: ReactElementType): FiberNode {
   const { type, key, props } = element
+
   let fiberTag: WorkTag = FunctionComponent
+
   if (typeof type === 'string') {
     fiberTag = HostComponent
   }
+
   else if (typeof type !== 'function' && __DEV__) {
     console.warn('未定义的type类型', element)
   }
+
   const fiber = new FiberNode(fiberTag, props, key)
-  fiber.tag = fiberTag
+  // NOTE:  type 需要赋值。这样才能根据type创建真实的节点
+  fiber.type = type
+
   return fiber
 }

@@ -18,9 +18,8 @@ export function beginWork(wip: FiberNode) {
       if (__DEV__) {
         console.warn('beginWork 未实现的类型')
       }
-      break
+      return null
   }
-  return null
 }
 
 function updateHostRoot(wip: FiberNode) {

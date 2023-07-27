@@ -1,16 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-const App = ()=>{
-  return (
-    <div>
-      <Child/>
-    </div>
-  )
-}
+const Node = <div><span>hello</span></div>
 
-const Child = ()=>{
-  return <span>vino</span>
-}
-
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />)
+ReactDOM.createRoot(document.getElementById('root')!).render(Node)

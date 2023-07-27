@@ -9,19 +9,23 @@ let nextEffect: FiberNode | null = null
 export function commitMutationEffects(finishedWork: FiberNode) {
   nextEffect = finishedWork
   while (nextEffect !== null) {
-    const child = nextEffect.child as FiberNode
+    const child: FiberNode | null = nextEffect.child
+
     if ((nextEffect.subTreeFlags & MutationMarks) !== NoFlags && child !== null) {
       nextEffect = child
     }
+
     else {
       up: while (nextEffect !== null) {
         commitMutationEffectsOnFiber(nextEffect)
         const sibling: FiberNode | null = nextEffect.sibling
+
         if (sibling !== null) {
           nextEffect = sibling
           break up
         }
-        nextEffect = nextEffect.sibling
+
+        nextEffect = nextEffect.return
       }
     }
   }
@@ -44,7 +48,6 @@ function commitPlacement(finishedWork: FiberNode) {
   }
   const hostParent = getHostParent(finishedWork)
   if (hostParent !== null) {
-    console.log(hostParent)
     appendPlacmentNodeIntoContaier(finishedWork, hostParent)
   }
 }
