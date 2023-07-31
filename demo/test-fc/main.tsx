@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 
 const Node = <div><span>hello</span></div>
 
 function App() {
-  return <div>{Node}</div>
+  const [n] = useState(1000)
+  return <div>{n}</div>
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<App/>)
