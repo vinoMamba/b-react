@@ -24,6 +24,7 @@ export class FiberNode {
   flags: Flags
   subTreeFlags: Flags
   updateQueue: unknown
+  deletions: FiberNode[] | null
 
   constructor(tag: WorkTag, pendingProps: Props, key: Key) {
     this.tag = tag
@@ -42,6 +43,7 @@ export class FiberNode {
     this.memoizedProps = null // 确定之后的Props
     this.memoizedState = null
     this.updateQueue = null
+    this.deletions = null
 
     this.alternate = null
 
@@ -77,6 +79,7 @@ export function createWorkInProgress(current: FiberNode, pendingProps: Props): F
   else {
     // NOTE: update
     wip.pendingProps = pendingProps
+    wip.deletions = null
   }
 
   wip.updateQueue = current.updateQueue

@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 
-const Node = <div><span>hello</span></div>
+function Child() {
+  return <span>child</span>
+}
 
 function App() {
-  const [n] = useState(1000)
-  return <div>{n}</div>
+  const [n, setN] = useState(1000)
+  window.setN = setN
+  return n === 3 ? <Child/> : <div>{n}</div>
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(<App/>)
